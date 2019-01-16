@@ -1,4 +1,4 @@
-code-generator
+code-jinni
 ==================
 
 The module allow to create a simple way to onstruct dom of code snippets that can be rendered at the end into javascript code.
