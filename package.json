@@ -25,5 +25,8 @@
   "dependencies": {
     "recast": "^0.16.2",
     "relative": "^3.0.2"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   }
 }
