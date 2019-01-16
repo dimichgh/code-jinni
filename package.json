@@ -1,0 +1,29 @@
+{
+  "name": "code-jinni",
+  "version": "1.0.0",
+  "description": "Generic javascript code generator that uses actual code snippets and mantains relationship ebtween artifacts to simplify DOM construction and eventual code generation",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "lint": "eslint --quiet -c .eslintrc .",
+    "lint-fix": "eslint --fix --quiet -c .eslintrc .",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha -- --exit test/*.js"
+  },
+  "keywords": [
+    "code",
+    "generation"
+  ],
+  "author": "Dmytro Semenov <dimichsdg@yahoo.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-config-ebay": "^1.0.0",
+    "eslint-plugin-mocha": "^5.2.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "recast": "^0.16.2",
+    "relative": "^3.0.2"
+  }
+}
