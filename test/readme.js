@@ -2,22 +2,22 @@ const Assert = require('assert');
 
 describe(__filename, () => {
     it('should do read example', () => {
-        const { Module, Location } = require('..');
+        const { createModule, Location } = require('..');
 
         const root = new Location('some/path/to/root');
-        const foo = new Module('foo', root.relative('foo'));
-        const bar = new Module('bar', root.relative('other/bar'));
+        const foo = createModule(root.relative('foo'));
+        const bar = createModule(root.relative('other/bar'));
 
         foo.import('barvar', bar);
         Assert.equal(`const barvar = require('./other/bar');`, foo.toString());
     });
 
     it('adding body', () => {
-        const { Module, Location, Code, Var } = require('..');
+        const { createModule, Location, Code, Var } = require('..');
 
         const root = new Location('some/path/to/root');
-        const foo = new Module('foo', root.relative('foo'));
-        const bar = new Module('bar', root.relative('other/bar'));
+        const foo = createModule(root.relative('foo'));
+        const bar = createModule(root.relative('other/bar'));
 
         foo.import('barvar', bar);
 

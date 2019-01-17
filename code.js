@@ -1,31 +1,20 @@
 const Assert = require('assert');
 const Recast = require('recast');
-const { Location } = require('./location');
-
 class Code {
-    constructor(snippet, location) {
-        if (snippet instanceof Location) {
-            location = snippet;
-            snippet = undefined;
-        }
-        Assert.ok(!location || location instanceof Location);
-        this.location = location;
+    constructor(snippet, parent) {
         this.children = [];
         snippet !== undefined && this.add(String(snippet));
+        this.parent = parent;
     }
 
     add(code) {
         Assert.ok(code instanceof Code || typeof code === 'string');
         if (code instanceof Code) {
-            code.location = this.location;
+            code.parent = this;
         }
         this.children.push(code);
 
         return this;
-    }
-
-    getPath() {
-        return this.location.getPath();
     }
 
     toString() {

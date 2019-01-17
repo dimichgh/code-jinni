@@ -1,6 +1,5 @@
 const Assert = require('assert');
 const { Code } = require('../code');
-const { Location } = require('../location');
 
 describe(__filename, () => {
     it('should create an empty snippet code', () => {
@@ -37,12 +36,11 @@ describe(__filename, () => {
     });
 
     it('should create string snippet code with location', () => {
-        const code = new Code(new Location('path/to/file'));
+        const code = new Code();
         code.add('one');
         code.add(new Code('body'));
         code.add('two');
         Assert.equal('onebodytwo', code.toString());
-        Assert.equal('path/to/file', code.getPath());
     });
 
     it('should prettyprint js code', () => {

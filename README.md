@@ -17,29 +17,29 @@ yarn add code-jinni
 ### External module
 
 ```js
-const { Module } = require('code-generator/module');
-const mod = new Module('foo');
+const { createModule } = require('code-generator/module');
+const mod = createModule('foo');
 console.log(mod.getPath()); // foo
 ```
 
 ### Relative module
 
 ```js
-const { Module, Location } = require('code-generator/module');
+const { createModule, Location } = require('code-generator/module');
 
 const root = new Location('some/path/to/root');
-const foo = new Module('foo', root.relative('foo'));
+const foo = createModule('foo', root.relative('foo'));
 console.log(mod.getPath()); // some/path/to/root/foo
 ```
 
 ### Adding import to the module
 
 ```js
-const { Module, Location } = require('code-generator');
+const { createModule, Location } = require('code-generator');
 
 const root = new Location('some/path/to/root');
-const foo = new Module('foo', root.relative('foo'));
-const bar = new Module('bar', root.relative('other/bar'));
+const foo = createModule('foo', root.relative('foo'));
+const bar = createModule('bar', root.relative('other/bar'));
 
 foo.import('barvar', bar);
 console.log(foo.toString()); // >> const barvar = require('./other/bar');
@@ -48,11 +48,11 @@ console.log(foo.toString()); // >> const barvar = require('./other/bar');
 ### Adding body to the module
 
 ```js
-const { Module, Location, Code, Var } = require('code-generator');
+const { createModule, Location, Code, Var } = require('code-generator');
 
 const root = new Location('some/path/to/root');
-const foo = new Module('foo', root.relative('foo'));
-const bar = new Module('bar', root.relative('other/bar'));
+const foo = createModule('foo', root.relative('foo'));
+const bar = createModule('bar', root.relative('other/bar'));
 
 foo.import('barvar', bar);
 
