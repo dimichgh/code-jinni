@@ -31,6 +31,7 @@ class Link extends Code {
 class Import extends Var {
     constructor(name, hostCode, importedCode) {
         super(name, new Link(hostCode, importedCode));
+        this.reference = this.value;
     }
 
     unref() {
@@ -41,7 +42,10 @@ class Import extends Var {
 
     inline() {
         const pos = this.value.hostCodeRef.imports.indexOf(this);
-        this.value.hostCodeRef.imports.splice(pos, 1, new Var(this.name));
+        const varDecl = new Var(this.name);
+        varDecl.reference = this.value;
+        varDecl.inline = () => this;
+        this.value.hostCodeRef.imports.splice(pos, 1, varDecl);
         this.isInline = true;
         return this;
     }
@@ -90,7 +94,7 @@ class Module extends Code {
         let imp = new Import(name, this, mod);
         // check if we have dup imports or var name conflicts
         const existingImp = this.imports.find(im =>
-            String(im.value) === String(imp.value));
+            String(im.reference) === String(imp.reference));
         if (existingImp) {
             if (existingImp.name === name) {
                 return existingImp;
