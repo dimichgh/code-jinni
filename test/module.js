@@ -49,9 +49,47 @@ describe(__filename, () => {
         `require('qaz');const wsx = require('../other/wsx');body`, foo.toString());
     });
 
+    it('should unref some imported modules', () => {
+        const base = new Location('./path/to/foo');
+        const foo = createModule(base);
+        const bar = createModule('bar');
+        const qaz = createModule('qaz');
+        const wsx = createModule(new Location('path/other/wsx'));
+        foo.add('body');
+        foo.import('bar', bar);
+        foo.import('bar', bar);
+        const qazImp = foo.import('qaz', qaz).unref();
+        const wsxImp = foo.import('wsx', wsx).unref();
+        Assert.equal(`const bar = require('bar');body`, foo.toString());
+        Assert.equal(`const qaz = require('qaz');`, qazImp.toString());
+        Assert.equal(`const wsx = require('../other/wsx');`, wsxImp.toString());
+        // should affect module location change even for unref imports
+        base.root = 'some/other/path';
+        Assert.equal(`const bar = require('bar');body`, foo.toString());
+        Assert.equal(`const qaz = require('qaz');`, qazImp.toString());
+        Assert.equal(`const wsx = require('../../path/other/wsx');`, wsxImp.toString());
+    });
+
+    it('should inline some imported modules', () => {
+        const base = new Location('./path/to/foo');
+        const foo = createModule(base);
+        const bar = createModule('bar');
+        const qaz = createModule('qaz');
+        const wsx = createModule(new Location('path/other/wsx'));
+        foo.add('body;');
+        foo.import('bar', bar);
+        foo.add(foo.import('qaz', qaz).inline());
+        foo.add(foo.import('wsx', wsx).inline());
+        Assert.equal(`const bar = require('bar');let qaz;let wsx;body;qaz` +
+            ` = require('qaz');wsx = require('../other/wsx');`, foo.toString());
+        // should affect module location change even for unref imports
+        base.root = 'some/other/path';
+        Assert.equal(`const bar = require('bar');let qaz;let wsx;body;qaz` +
+            ` = require('qaz');wsx = require('../../path/other/wsx');`, foo.toString());
+    });
+
     it('should not allow to get content for external module', () => {
         const bar = createModule('bar');
-        Assert.ok(bar.external);
         Assert.throws(() => {
             bar.toString();
         }, /You cannot serialize external module bar/);
@@ -163,8 +201,6 @@ describe(__filename, () => {
     });
 
     it('should fail to get relative from external module', () => {
-        Assert.throws(() => {
-            createModule('two').relative('path');
-        }, /You cannot create relative path from external module two with relative path: path/);
+        Assert.equal('two/path', createModule('two').relative('path').getPath());
     });
 });

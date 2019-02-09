@@ -17,7 +17,7 @@ yarn add code-jinni
 ### External module
 
 ```js
-const { createModule } = require('code-generator/module');
+const { createModule } = require('code-generator');
 const mod = createModule('foo');
 console.log(mod.getPath()); // foo
 ```
@@ -25,10 +25,10 @@ console.log(mod.getPath()); // foo
 ### Relative module
 
 ```js
-const { createModule, Location } = require('code-generator/module');
+const { createModule, Location } = require('code-generator');
 
 const root = new Location('some/path/to/root');
-const foo = createModule('foo', root.relative('foo'));
+const foo = createModule(root.relative('foo'));
 console.log(mod.getPath()); // some/path/to/root/foo
 ```
 
@@ -38,8 +38,8 @@ console.log(mod.getPath()); // some/path/to/root/foo
 const { createModule, Location } = require('code-generator');
 
 const root = new Location('some/path/to/root');
-const foo = createModule('foo', root.relative('foo'));
-const bar = createModule('bar', root.relative('other/bar'));
+const foo = createModule(root.relative('foo'));
+const bar = createModule(root.relative('other/bar'));
 
 foo.import('barvar', bar);
 console.log(foo.toString()); // >> const barvar = require('./other/bar');
@@ -51,8 +51,8 @@ console.log(foo.toString()); // >> const barvar = require('./other/bar');
 const { createModule, Location, Code, Var } = require('code-generator');
 
 const root = new Location('some/path/to/root');
-const foo = createModule('foo', root.relative('foo'));
-const bar = createModule('bar', root.relative('other/bar'));
+const foo = createModule(root.relative('foo'));
+const bar = createModule(root.relative('other/bar'));
 
 foo.import('barvar', bar);
 

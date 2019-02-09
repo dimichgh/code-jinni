@@ -8,7 +8,7 @@ class Code {
     }
 
     add(code) {
-        Assert.ok(code instanceof Code || typeof code === 'string');
+        Assert.ok(code instanceof Code || typeof code === 'string', `Actual value ${code}`);
         if (code instanceof Code) {
             code.parent = this;
         }
@@ -21,9 +21,9 @@ class Code {
         return this.children.map(code => code.toString()).join('');
     }
 
-    static pretty(code, tabWidth = 4) {
+    static pretty(code, tabWidth = 4, quote = 'single') {
         const ast = Recast.parse(code.toString());
-        return Recast.prettyPrint(ast, { tabWidth }).code;
+        return Recast.prettyPrint(ast, { tabWidth, quote }).code;
     }
 }
 

@@ -32,6 +32,26 @@ class Import extends Var {
     constructor(name, hostCode, importedCode) {
         super(name, new Link(hostCode, importedCode));
     }
+
+    unref() {
+        const pos = this.value.hostCodeRef.imports.indexOf(this);
+        this.value.hostCodeRef.imports.splice(pos, 1);
+        return this;
+    }
+
+    inline() {
+        const pos = this.value.hostCodeRef.imports.indexOf(this);
+        this.value.hostCodeRef.imports.splice(pos, 1, new Var(this.name));
+        this.isInline = true;
+        return this;
+    }
+
+    toString() {
+        if (this.isInline) {
+            return `${this.name} = ${this.value.toString()};`;
+        }
+        return super.toString();
+    }
 }
 
 class ModuleLocation extends Location {
@@ -69,7 +89,8 @@ class Module extends Code {
 
         let imp = new Import(name, this, mod);
         // check if we have dup imports or var name conflicts
-        const existingImp = this.imports.find(im => im.value.toString() === imp.value.toString());
+        const existingImp = this.imports.find(im =>
+            String(im.value) === String(imp.value));
         if (existingImp) {
             if (existingImp.name === name) {
                 return existingImp;
@@ -112,8 +133,6 @@ class Module extends Code {
     }
 
     relative(path) {
-        Assert.ok(!this.external, `You cannot create relative path from external module ${
-            this.getPath()} with relative path: ${path}`);
         return this.location.relative(path);
     }
 }
