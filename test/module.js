@@ -1,12 +1,8 @@
 const Assert = require('assert');
-const { createModule, cache } = require('../module');
+const { createModule, ModuleLocation } = require('../module');
 const { Location } = require('../location');
 
 describe(__filename, () => {
-    beforeEach(() => {
-        cache.clear();
-    });
-
     it('should create an empty module', () => {
         const code = createModule(new Location('path/to/root'));
         Assert.equal('', code.toString());
@@ -34,6 +30,15 @@ describe(__filename, () => {
         foo.add('body');
         foo.import('bar', bar);
         Assert.equal(`const bar = require('bar');body`, foo.toString());
+    });
+
+
+    it('should create return module location for external modules', () => {
+        const foo = createModule('foo');
+        Assert.ok(foo.relative('..') instanceof ModuleLocation);
+
+        const bar = createModule(new Location('./path/to/bar'));
+        Assert.ok(!(bar.relative('..') instanceof ModuleLocation));
     });
 
     it('should add multiple imports', () => {
@@ -156,7 +161,6 @@ describe(__filename, () => {
         const foo = createModule(baseLocation.relative('too/foo'));
         const bar = createModule(foo.relative('../other/deep/bar'));
         const dupBar = createModule(baseLocation.relative('too/other/deep/bar'));
-        Assert.ok(bar === dupBar);
 
         foo.import('bar', bar);
         // it should update a var ref of the affected import

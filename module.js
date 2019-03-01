@@ -5,8 +5,6 @@ const { Location } = require('./location');
 const { Code } = require('./code');
 const { Var } = require('./var');
 
-let allModules = [];
-
 class Link extends Code {
     constructor(hostCodeRef, importedCodeRef) {
         super();
@@ -23,7 +21,6 @@ class Link extends Code {
         }
         const path = relative(Path.resolve(this.hostCodeRef.getPath(), '..'),
             this.importedCodeRef.getPath());
-
         return `require('${/\./.test(path) ? path : `./${path}`}')`;
     }
 }
@@ -67,23 +64,35 @@ class ModuleLocation extends Location {
         super(name);
         Assert.ok(name);
     }
+
+    relative(path) {
+        Assert.ok(path, 'path must be provided');
+        const ret = new ModuleLocation(this);
+        ret.path = path;
+        return ret;
+    }
 }
 
 class Module extends Code {
     constructor(location) {
         super();
         this.location = typeof location === 'string' ? new ModuleLocation(location) : location;
-        this.external = typeof location === 'string';
         this.imports = [];
+    }
+
+    get external() {
+        let location = this.location;
+        while (location instanceof Location) {
+            if (location instanceof ModuleLocation) {
+                return true;
+            }
+            location = location.root;
+        }
+        return false;
     }
 
     static create(location) {
         const newMod = new Module(location);
-        const existingModule = allModules.find(mod => mod.getPath() === newMod.getPath());
-        if (existingModule) {
-            return existingModule;
-        }
-        allModules.push(newMod);
         return newMod;
     }
 
@@ -143,9 +152,5 @@ class Module extends Code {
 
 module.exports = {
     createModule: Module.create,
-    cache: {
-        clear() {
-            allModules = [];
-        }
-    }
+    ModuleLocation
 };

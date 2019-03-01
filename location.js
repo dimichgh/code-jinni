@@ -1,3 +1,4 @@
+const Assert = require('assert');
 const Path = require('path');
 
 class Location {
@@ -19,9 +20,15 @@ class Location {
     }
 
     relative(path) {
+        Assert.ok(path, 'Path must be provided');
         const ret = new Location(this);
         ret.path = path;
         return ret;
+    }
+
+    set(location) {
+        this.root = location.root;
+        this.path = location.path;
     }
 }
 

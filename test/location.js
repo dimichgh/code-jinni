@@ -22,5 +22,9 @@ describe(__filename, () => {
         base.root = 'new/root';
         Assert.equal('new/foo', foo.getPath());
         Assert.equal('new/other/deep/bar', bar.getPath());
+
+        base.set(new Location('new/path').relative('..'));
+        Assert.equal('other/deep/bar', bar.getPath());
+        Assert.equal('foo', foo.getPath());        
     });
 });
