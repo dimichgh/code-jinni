@@ -146,7 +146,8 @@ class Module extends Code {
 
     toString() {
         Assert.ok(!this.external, `You cannot serialize external module ${this.getPath()}`);
-        return `${this.strict ? `'use strict';` : ''}${this.imports.map(imp => imp.toString()).join('')}${super.toString()}`;
+        return `${this.strict ?
+            `'use strict';` : ''}${this.imports.map(imp => imp.toString()).join('')}${super.toString()}`;
     }
 
     relative(path) {

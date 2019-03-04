@@ -44,6 +44,7 @@ describe(__filename, () => {
     });
 
     it('should prettyprint js code', () => {
-        Assert.equal('function fn() {\n    return \'foo\';\n}', Code.pretty(new Code(`function fn() { return 'foo' }`)));
+        Assert.equal('function fn() {\n    return \'foo\';\n}',
+            Code.pretty(new Code(`function fn() { return 'foo' }`)));
     });
 });

@@ -25,6 +25,6 @@ describe(__filename, () => {
 
         base.set(new Location('new/path').relative('..'));
         Assert.equal('other/deep/bar', bar.getPath());
-        Assert.equal('foo', foo.getPath());        
+        Assert.equal('foo', foo.getPath());
     });
 });
