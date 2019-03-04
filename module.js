@@ -96,6 +96,10 @@ class Module extends Code {
         return newMod;
     }
 
+    useStrict() {
+        this.strict = true;
+    }
+
     import(name, mod) {
         Assert.ok(!this.external, `You cannot add import to external module ${this.getPath()}`);
         Assert.ok(mod instanceof Module);
@@ -142,7 +146,7 @@ class Module extends Code {
 
     toString() {
         Assert.ok(!this.external, `You cannot serialize external module ${this.getPath()}`);
-        return `${this.imports.map(imp => imp.toString()).join('')}${super.toString()}`;
+        return `${this.strict ? `'use strict';` : ''}${this.imports.map(imp => imp.toString()).join('')}${super.toString()}`;
     }
 
     relative(path) {

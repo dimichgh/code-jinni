@@ -32,6 +32,16 @@ describe(__filename, () => {
         Assert.equal(`const bar = require('bar');body`, foo.toString());
     });
 
+    it('should use strict', () => {
+        const foo = createModule(new Location('./path/to/foo'));
+        foo.useStrict();
+        Assert.ok(!foo.external);
+        const bar = createModule('bar');
+        Assert.ok(bar.external);
+        foo.add('body');
+        foo.import('bar', bar);
+        Assert.equal(`'use strict';const bar = require('bar');body`, foo.toString());
+    });
 
     it('should create return module location for external modules', () => {
         const foo = createModule('foo');
