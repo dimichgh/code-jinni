@@ -1,9 +1,15 @@
 code-jinni
 ==================
 
-The module allow to create a simple way to onstruct dom of code snippets that can be rendered at the end into javascript code.
+[![codecov](https://codecov.io/gh/dimichgh/code-jinni/branch/master/graph/badge.svg)](https://codecov.io/gh/dimichgh/code-jinni)
+[![Build Status](https://travis-ci.org/dimichgh/code-jinni.svg?branch=master)](https://travis-ci.org/dimichgh/code-jinni) [![NPM](https://img.shields.io/npm/v/code-jinni.svg)](https://www.npmjs.com/package/code-jinni)
+[![Downloads](https://img.shields.io/npm/dm/code-jinni.svg)](http://npm-stat.com/charts.html?package=code-jinni)
+[![Known Vulnerabilities](https://snyk.io/test/github/dimichgh/code-jinni/badge.svg)](https://snyk.io/test/github/dimichgh/code-jinni)
+[![Greenkeeper badge](https://badges.greenkeeper.io/dimichgh/code-jinni.svg)](https://greenkeeper.io/)
 
-One way to use it is to create templates for code generation with dynamic elements that can be related to each other. This would allow, for example, by changing base for some modules, it will modify imports in the module that import the affected modules.
+The module allows to create a simple way to construct dom of code snippets that can be rendered at the end into javascript code.
+
+One way to use it is to create templates for code generation with dynamic elements that can be related to each other. This would allow, for example, by changing base for some modules, it will modify imports in the module that imports the affected modules.
 
 ## Install
 
