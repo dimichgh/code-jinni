@@ -1,3 +1,6 @@
+## 2.0.0
+* Changed the behavior of how duplicate imports are de-duped.
+
 ## 1.2.0
 * Added use strict option
 

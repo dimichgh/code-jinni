@@ -104,32 +104,11 @@ class Module extends Code {
         Assert.ok(!this.external, `You cannot add import to external module ${this.getPath()}`);
         Assert.ok(mod instanceof Module);
 
-        let imp = new Import(name, this, mod);
+        const imp = new Import(name, this, mod);
         // check if we have dup imports or var name conflicts
-        const existingImp = this.imports.find(im =>
-            String(im.reference) === String(imp.reference));
+        const existingImp = this.imports.find(im => String(im.reference) === String(imp.reference));
         if (existingImp) {
-            if (existingImp.name === name) {
-                return existingImp;
-            }
-            // create a reference to the existing import
-            imp = new Proxy({
-                name
-            }, {
-                get(target, prop) {
-                    if (typeof prop === 'string') {
-                        return target.hasOwnProperty(prop) ? target[prop] : existingImp[prop];
-                    }
-                    return target[prop];
-                },
-
-                set(target, prop, value) {
-                    if (typeof prop === 'string' && target.hasOwnProperty(prop)) {
-                        target[prop] = value;
-                    }
-                    // change is not allowed for other properties
-                }
-            });
+            return existingImp;
         }
         // now check if we have var name cpnflict
         const nameConflictImp = this.imports.find(im => im.name === imp.name);

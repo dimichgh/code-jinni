@@ -145,10 +145,10 @@ describe(__filename, () => {
         foo.import('bar', bar);
         // it should update a var ref of the affected import
         foo.import('dupbar', dupBar);
-        Assert.equal(`const bar = require('bar');const dupbar = require('bar');`, foo.toString());
-        // now if we modify module name, both imports should be updated
+        Assert.equal(`const bar = require('bar');`, foo.toString());
+        // now if we modify module name, the import should be updated
         bar.location.root = 'bar-updated';
-        Assert.equal(`const bar = require('bar-updated');const dupbar = require('bar-updated');`, foo.toString());
+        Assert.equal(`const bar = require('bar-updated');`, foo.toString());
     });
 
     it('should dedup duplicate imports, external modules, same var names', () => {
@@ -175,20 +175,17 @@ describe(__filename, () => {
         foo.import('bar', bar);
         // it should update a var ref of the affected import
         const imp = foo.import('dupbar', dupBar);
-        Assert.equal(`const bar = require('./other/deep/bar');const dupbar = require('./other/deep/bar');`,
+        Assert.equal(`const bar = require('./other/deep/bar');`,
             foo.toString());
         // now if we modify module name, both imports should be updated
         bar.location = bar.relative('deeper');
-        Assert.equal(`const bar = require('./other/deep/bar/deeper');` +
-            `const dupbar = require('./other/deep/bar/deeper');`, foo.toString());
+        Assert.equal(`const bar = require('./other/deep/bar/deeper');`, foo.toString());
         // try access other props
         imp[Symbol.iterator];
         imp.name = 'newBar';
-        Assert.equal(`const bar = require('./other/deep/bar/deeper');` +
-            `const newBar = require('./other/deep/bar/deeper');`, foo.toString());
-        imp.value = 'boom'; // ignored
-        Assert.equal(`const bar = require('./other/deep/bar/deeper');` +
-            `const newBar = require('./other/deep/bar/deeper');`, foo.toString());
+        Assert.equal(`const newBar = require('./other/deep/bar/deeper');`, foo.toString());
+        imp.value = 'boom';
+        Assert.equal(`const newBar = boom;`, foo.toString());
     });
 
     it('should dedup duplicate imports, relative module files, same var names', () => {
