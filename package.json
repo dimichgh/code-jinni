@@ -1,6 +1,6 @@
 {
   "name": "code-jinni",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Generic javascript code generator that uses actual code snippets and mantains relationship ebtween artifacts to simplify DOM construction and eventual code generation",
   "main": "index.js",
   "scripts": {
