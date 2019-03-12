@@ -49,7 +49,7 @@ class Import extends Var {
 
     toString() {
         if (this.isInline) {
-            return `${this.name} = ${this.value.toString()};`;
+            return `${this.name} = ${this.name} || ${this.value.toString()};`;
         }
         return super.toString();
     }

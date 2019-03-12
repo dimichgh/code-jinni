@@ -1,3 +1,6 @@
+## 2.1.0
+* Added caching of inline require.
+
 ## 2.0.0
 * Changed the behavior of how duplicate imports are de-duped.
 

@@ -95,12 +95,12 @@ describe(__filename, () => {
         foo.import('bar', bar);
         foo.add(foo.import('qaz', qaz).inline());
         foo.add(foo.import('wsx', wsx).inline());
-        Assert.equal(`const bar = require('bar');let qaz;let wsx;body;qaz` +
-            ` = require('qaz');wsx = require('../other/wsx');`, foo.toString());
+        Assert.equal(`const bar = require('bar');let qaz;let wsx;body;qaz = qaz ||` +
+            ` require('qaz');wsx = wsx || require('../other/wsx');`, foo.toString());
         // should affect module location change even for unref imports
         base.root = 'some/other/path';
         Assert.equal(`const bar = require('bar');let qaz;let wsx;body;qaz` +
-            ` = require('qaz');wsx = require('../../path/other/wsx');`, foo.toString());
+            ` = qaz || require('qaz');wsx = wsx || require('../../path/other/wsx');`, foo.toString());
     });
 
     it('should not allow to get content for external module', () => {
