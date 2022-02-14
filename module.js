@@ -15,12 +15,16 @@ class Link extends Code {
         this.importedCodeRef = importedCodeRef;
     }
 
+    unixify(str) {
+        return str.replace(/[\\\/]+/g, '/');
+    }
+
     toString() {
         if (this.importedCodeRef.external) {
-            return `require('${this.importedCodeRef.getPath()}')`;
+            return `require('${this.unixify(this.importedCodeRef.getPath())}')`;
         }
-        const path = relative(Path.resolve(this.hostCodeRef.getPath(), '..'),
-            this.importedCodeRef.getPath());
+        const path = this.unixify(relative(Path.resolve(this.hostCodeRef.getPath(), '..'),
+            this.importedCodeRef.getPath()));
         return `require('${/\./.test(path) ? path : `./${path}`}')`;
     }
 }
