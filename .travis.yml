@@ -1,6 +1,7 @@
 os:
   - linux
   - windows
+
 node_js:
 - "14"
 - "16"
