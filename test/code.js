@@ -1,5 +1,6 @@
 const Assert = require('assert');
 const { Code } = require('../code');
+var os = require("os");
 
 describe(__filename, () => {
     it('should create an empty snippet code', () => {
@@ -44,7 +45,7 @@ describe(__filename, () => {
     });
 
     it('should prettyprint js code', () => {
-        Assert.equal('function fn() {\n    return \'foo\';\n}',
+        Assert.equal(`function fn() {${os.EOL}    return \'foo\';${os.EOL}}`,
             Code.pretty(new Code(`function fn() { return 'foo' }`)));
     });
 });

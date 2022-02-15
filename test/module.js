@@ -1,6 +1,7 @@
 const Assert = require('assert');
 const { createModule, ModuleLocation } = require('../module');
 const { Location } = require('../location');
+const Path = require('path');
 
 describe(__filename, () => {
     it('should create an empty module', () => {
@@ -210,8 +211,8 @@ describe(__filename, () => {
             one.import('bar', three);
         }, /The var bar with the same name already defined in module .\/path/);
     });
-
+    
     it('should fail to get relative from external module', () => {
-        Assert.equal('two/path', createModule('two').relative('path').getPath());
+        Assert.equal(`two${Path.sep}path`, createModule('two').relative('path').getPath());
     });
 });

@@ -1,4 +1,5 @@
 const Assert = require('assert');
+var os = require("os");
 
 describe(__filename, () => {
     it('should do read example', () => {
@@ -29,8 +30,8 @@ describe(__filename, () => {
             .add(new Code('})'));
         Assert.equal(`const barvar = require('./other/bar');describe(__filename, () => ` +
         `{it('should do some test', () => {const foo = 10;const bar = false;})})`, foo.toString());
-        Assert.equal('const barvar = require(\'./other/bar\');\n\ndescribe(__filename,' +
-        ' () => {\n    it(\'should do some test\', () => {\n        ' +
-        'const foo = 10;\n        const bar = false;\n    });\n});', Code.pretty(foo));
+        Assert.equal(`const barvar = require(\'./other/bar\');${os.EOL}${os.EOL}describe(__filename,` +
+        ` () => {${os.EOL}    it(\'should do some test\', () => {${os.EOL}        ` +
+        `const foo = 10;${os.EOL}        const bar = false;${os.EOL}    });${os.EOL}});`, Code.pretty(foo));
     });
 });
