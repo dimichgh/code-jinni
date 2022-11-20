@@ -16,7 +16,7 @@
   "author": "Dmytro Semenov <dimichsdg@yahoo.com>",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^5.12.0",
+    "eslint": "^8.0.0",
     "eslint-config-ebay": "^1.0.0",
     "eslint-plugin-mocha": "^5.2.1",
     "istanbul": "^0.4.5",
